@@ -1,25 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmoussu <jmoussu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/25 16:03:41 by jmoussu           #+#    #+#             */
-/*   Updated: 2018/12/04 15:56:08 by jmoussu          ###   ########.fr       */
+/*   Created: 2018/11/11 14:58:08 by jmoussu           #+#    #+#             */
+/*   Updated: 2018/11/12 14:46:05 by jmoussu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
+void	*ft_memchr(const void *s, int c, size_t n)
+{
+	size_t			i;
+	unsigned char	*str;
+	unsigned char	uc;
+	int				find;
 
-#define BUFF_SIZE 42
-
-int		get_next_line(const int fd, char **line);
-
-#endif
+	find = 0;
+	uc = (unsigned char)c;
+	str = (unsigned char*)s;
+	i = 0;
+	while (i < n && find != 1)
+	{
+		if (*str == uc)
+		{
+			find = 1;
+			str--;
+		}
+		str++;
+		i++;
+	}
+	return ((find == 1) ? str : NULL);
+}

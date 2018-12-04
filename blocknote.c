@@ -6,7 +6,7 @@
 /*   By: jmoussu <jmoussu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/25 16:02:59 by jmoussu           #+#    #+#             */
-/*   Updated: 2018/12/01 15:02:49 by jmoussu          ###   ########.fr       */
+/*   Updated: 2018/12/03 15:48:10 by jmoussu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,77 +167,96 @@ int		get_next_line(const int fd, char **line)
 // /\/\/\/\/\/\/\/\/\ LORAINE /\/\/\/\/\/\/\/\/\/\/\/
 // /\/\/\/\/\/\/\/\/\ LORAINE /\/\/\/\/\/\/\/\/\/\/\/
 // /\/\/\/\/\/\/\/\/\ LORAINE /\/\/\/\/\/\/\/\/\/\/\/
-
 #include "get_next_line.h"
-int     ft_check(int fd, char **str, char **line)
+
+int		ft_check(int fd, char **str, char **line)
 {
-    char    buf[BUFF_SIZE];
-    //mon fd est > 0 mais a été fermé, check est sensé renvoyer 1 ! comment reperer un fd fermé ?
-    if (fd < 0 || line == NULL || read(fd, buf, 0) == -1)
-        return (1);
-    if (!*str)
-    {
-        if (!(*str = (char*)malloc(sizeof(char) * (BUFF_SIZE + 1))))
-            return (1);
-    }
-    return (0);
+	char	buf[BUFF_SIZE];
+
+	if (fd < 0 || line == NULL || read(fd, buf, 0) == -1)
+		return (1);
+	if (!*str)
+	{
+		if (!(*str = (char*)malloc(sizeof(char) * (BUFF_SIZE + 1))))
+			return (1);
+	}
+	return (0);
 }
-char    *ft_readallfile(char *str, int fd)
+
+/*
+char	*ft_readallfile(char *str, int fd)
 {
-    int     size;
-    char    buffer[BUFF_SIZE + 1];
-    //char  *str_tmp;
-    //str_tmp = "";
-    while ((size = read(fd, buffer, BUFF_SIZE)) > 0)
-    {
-        buffer[size] = '\0'; //pour eviter des problemes dans la memoire, buffer est utilisé en tant que string dans strjoin et doit avoir son '\0'
-        str = ft_strjoin(str, buffer); //le buffer va etre ecrasé a chaque lecture de read donc on ajoute chaque nouveauté dans str avec join, join ecrase les '\0'
-        //free(str);
-        //str = str_tmp;
-    }
-    return (str);
+	int		size;
+	size_t	i;
+	size_t	j;
+	char	buff[BUFF_SIZE + 1];
+
+	i = 0;
+	j = ft_strlen(str);
+	while ((size = read(fd, buff, BUFF_SIZE)) > 0)
+	{
+		buff[size] = '\0';
+		while (buff[i] != '\0')
+		{
+			str[i + j] = buff[i];
+			i++;
+		}
+		j = j + i;
+		i = 0;
+	}
+	str[j] = '\0';
+	return (str);
+}*/
+
+
+char	*ft_readallfile(char *str, int fd)
+{
+	int		size;
+	char	buffer[BUFF_SIZE + 1];
+
+	//ft_putstr("salut je read");
+	while ((size = read(fd, buffer, BUFF_SIZE)) > 0)
+	{
+		//ft_putstr("salut je WHILE");
+		buffer[size] = '\0';
+		if (!(str = ft_strjoin(str, buffer)))
+			return (NULL);
+	}
+	return (str);
 }
-int     get_next_line(int const fd, char **line)
+
+int		get_next_line(int const fd, char **line)
 {
-    static char     *str = NULL;
-    size_t              i;
-    i = 0;
-    if (ft_check(fd, &str, line) == 1)
-        return (-1);
-    str = ft_readallfile(str, fd);
-    if (str == NULL)
-        return (-1);
-    //ft_putstr("je suis avant le while");
-    //ft_putchar('\n');
-    while (i < ft_strlen(str))
-    {
-        //ft_putstr("je suis dans le while");
-        //ft_putchar('\n');
-        if (str[i] == '\n')
-        {
-            //ft_putstr("je suis dans le if");
-            //ft_putchar('\n');
-            str[i] = '\0';
-            *line = str;
-            str = str + i + 1;
-            return (1);
-        }
-        if (str[i + 1] == '\0')
-        //test.c == 12345678 puis '\0' rajouté par mon strjoin, donc on check si on est au '\0' final
-        {
-            //ft_putstr("je suis dans le deuxieme if");
-            //ft_putchar('\n');
-            *line = str;
-            str = str + i + 1;
-            //retirer le +1 si ca deconne
-            return (1);
-        }
-        i++;
-    }
-    //ft_putstr("je suis après le while");
-    //ft_putchar('\n');
-    *line = ft_strdup("");
-    return (0);
+	static char		*str = NULL;
+	size_t			i;
+
+	i = 0;
+	if (ft_check(fd, &str, line) == 1)
+		return (-1);
+	if (ft_strcmp(str, "") == 0)
+		str = ft_readallfile(str, fd);
+	if (str == NULL)
+		return (-1);
+	while (i < ft_strlen(str))
+	{
+		if (str[i] == '\n')
+		{
+			str[i] = '\0';
+			*line = str;
+			str = str + i + 1;
+			return (1);
+		}
+		if (str[i + 1] == '\0')
+		{
+			*line = str;
+			str = str + i + 1;
+			return (1);
+		}
+		i++;
+	}
+	if (!(*line = ft_strdup("")))
+		return (-1);
+	return (0);
 }
 
 /////////////////AUTRE CHECK EROOR/////////////////////
@@ -249,12 +268,87 @@ int		ft_error(int fd, char *str, char **line)
 		return (1);
 	return (0);
 }
+
 int     ft_error(int fd, char **str, char **line)
 {
-	char	*buf;
+	char	buf[BUFF_SIZE];
     //mon fd est > 0 mais a été fermé, check est sensé renvoyer 1 ! comment reperer un fd fermé ?
 
 	if (fd < 0 || !line || read(fd, buf, 0) == -1 )
 		return (1);
 	return (0);
 }
+
+/////////////////AUTRE READ READ/////////////////////
+
+static char	*readfile(char* str, const int fd)
+{
+	int		size;
+	char	*buf;
+
+	if (!(buf = ft_strnew(BUFF_SIZE + 1)))
+		return (NULL);
+	while((size = read(fd, buf, BUFF_SIZE)) > 0)
+	{
+		if (!str)
+			str = ft_strnew(0);
+		buf[size] = '\0';
+		str = ft_strjoinGNL(str, buf);
+		// str = ft_strjoin((str) ? (str) : (""), buf);
+	}
+	return (str);	
+}
+
+char	*readfile(char *str, int fd)
+{
+	int		size;
+	size_t	i;
+	size_t	j;
+	char	buff[BUFF_SIZE + 1];
+
+	i = 0;
+	j = ft_strlen(str);
+	while ((size = read(fd, buff, BUFF_SIZE)) > 0)
+	{
+		buff[size] = '\0';
+		while (buff[i] != '\0')
+		{
+			str[i + j] = buff[i];
+			i++;
+		}
+		j = j + i;
+		i = 0;
+	}
+	str[j] = '\0';
+	return (str);
+}
+
+/*
+static char	*ft_strjoinGNL(char const *s1, char const *s2)
+{
+	char	*str;
+	int		i;
+	int		j;
+	int		len;
+
+	str = "";
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	len = ft_strlen(s1) + ft_strlen(s2);
+	j = 0;
+	i = 0;
+	while (s1[i] != 0)
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	while (s2[j] != 0)
+	{
+		str[i] = s2[j];
+		i++;
+		j++;
+	}
+	str[i] = 0;
+	return (str);
+}
+*/

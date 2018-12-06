@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmoussu <jmoussu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/25 16:02:59 by jmoussu           #+#    #+#             */
-/*   Updated: 2018/12/04 15:56:08 by jmoussu          ###   ########.fr       */
+/*   Created: 2018/12/05 17:09:13 by jmoussu           #+#    #+#             */
+/*   Updated: 2018/12/06 16:51:34 by jmoussu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,73 +21,41 @@ int				ft_error(int fd, char **line)
 	return (0);
 }
 
-static char		*readfile(char *str, int fd)
-{
-	int		size;
-	char	buffer[BUFF_SIZE + 1];
-
-	while ((size = read(fd, buffer, BUFF_SIZE)) > 0)
-	{
-		buffer[size] = '\0';
-		if (!(str = ft_strjoinfree(str, buffer, 1)))
-			return (NULL);
-	}
-	return (str);
-}
-
-static int		calc(char **str, char **line)
-{
-	size_t i;
-
-	i = 0;
-	while (str && *str && i < ft_strlen(*str))
-	{
-		if (*str == NULL)
-			return (-1);
-		if ((*str)[i] == '\n')
-		{
-			(*str)[i] = '\0';
-			*line = ft_strdup(*str);
-			*str = *str + i + 1;
-			return (1);
-		}
-		i++;
-	}
-	if (str && ft_strlen(*str) > 0)
-	{
-		*line = ft_strdup(*str);
-		*str = *str + i;
-		return (1);
-	}
-	return (0);
-}
-
 int				get_next_line(const int fd, char **line)
 {
-	static char	*str = NULL;
-	static char *strstart = NULL;
-	static int	g = 0;
-	int			ret;
+	static char *save = NULL;
+	int			size;
+	int			i;
 
-	ret = 0;
-	if (!(str))
-		if (!(str = ft_strdup("")))
-			return (-1);
+	i = 0;
+	size = 0;
+	if (save == NULL)
+		save = ft_strdup("");
+	*line = ft_strdup("");
 	if (ft_error(fd, line) == 1)
 		return (-1);
-	// ICI // ICI // ICI // ICI //
-	if (ft_strcmp(str, "") == 0)
+	while (1)
 	{
-		if (!(str = readfile(str, fd)))
-			return (-1);
+		if ((ft_strchr(save, '\n')) == NULL) // si ya pas de /n dans save
+		{
+			size = read(fd, *line, BUFF_SIZE);
+			if (size == 0)
+				break ;
+		}
+		(*line)[size] = '\0';
+		*line = ft_strjoin(save, *line);
+		while ((*line)[i] != '\n' || (*line)[i] != '\0')
+			i++;
+		if ((*line)[i] == '\n') //On a trouver un \n
+		{
+			(*line)[i] = '\0';
+			save = ft_strdup(*line + i + 1);
+			return (1);
+		}
+		if ((*line)[i] == '\0' && size == BUFF_SIZE) // comentairerter
+			save = ft_strdup(*line);
+		if ((*line)[i] == '\0' && size < BUFF_SIZE) // dfsdfgdfsiou
+			return (1);
 	}
-	if (strstart == NULL)
-		strstart = str;
-	ret = calc(&str, line);
-	if (ret == 0 && g == 0)
-	{
-		free (strstart);
-		g++;
-	}
-	return (ret);
+	return (0);
 }

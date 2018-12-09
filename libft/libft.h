@@ -6,7 +6,7 @@
 /*   By: jmoussu <jmoussu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 11:31:49 by jmoussu           #+#    #+#             */
-/*   Updated: 2018/12/03 14:40:48 by jmoussu          ###   ########.fr       */
+/*   Updated: 2018/12/08 14:52:47 by jmoussu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int					ft_memcmp(const void *s1, const void *s2, size_t n);
 size_t				ft_strlen(const char *str);
 
 char				*ft_strdup(const char *src);
+char				*ft_strdupfree(char *src);
 
 char				*ft_strcpy(char *dest, const char *src);
 char				*ft_strncpy(char *dest, const char *src, size_t n);

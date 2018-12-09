@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_strdupfree.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmoussu <jmoussu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/09 13:37:01 by jmoussu           #+#    #+#             */
-/*   Updated: 2018/11/24 18:49:55 by jmoussu          ###   ########.fr       */
+/*   Created: 2018/12/08 14:49:16 by jmoussu           #+#    #+#             */
+/*   Updated: 2018/12/08 14:51:47 by jmoussu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *src)
+char	*ft_strdupfree(char *src)
 {
 	int		i;
 	char	*dest;
@@ -26,5 +26,6 @@ char	*ft_strdup(const char *src)
 		i++;
 	}
 	dest[i] = 0;
+	free(src);
 	return (dest);
 }

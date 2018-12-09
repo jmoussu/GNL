@@ -6,7 +6,7 @@
 #    By: jmoussu <jmoussu@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/09 11:30:35 by jmoussu           #+#    #+#              #
-#    Updated: 2018/12/01 15:52:05 by jmoussu          ###   ########.fr        #
+#    Updated: 2018/12/08 14:53:48 by jmoussu          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRC =	ft_putchar.c \
 		ft_strcmp.c \
 		ft_strncmp.c \
 		ft_strdup.c \
+		ft_strdupfree.c \
 		ft_strcpy.c \
 		ft_strncpy.c \
 		ft_memset.c \

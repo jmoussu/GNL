@@ -1,29 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strsub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmoussu <jmoussu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/25 16:03:41 by jmoussu           #+#    #+#             */
-/*   Updated: 2019/01/28 15:27:27 by jmoussu          ###   ########.fr       */
+/*   Created: 2018/11/15 13:11:34 by jmoussu           #+#    #+#             */
+/*   Updated: 2018/11/15 14:37:41 by jmoussu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# define BUFF_SIZE 3
-
-typedef struct		s_var
+char	*ft_strsub(char const *s, unsigned int start, size_t len)
 {
-	char			buff[BUFF_SIZE + 1];
-	int				size;
-	int				i;
-	char			*ptr;
-}					t_var;
+	char	*str;
+	size_t	i;
 
-int					get_next_line(const int fd, char **line);
-
-#endif
+	i = 0;
+	if (!(str = (char*)malloc(sizeof(char) * (len + 1))))
+		return (NULL);
+	if (s == NULL)
+		return (NULL);
+	if (len == 0)
+		return (str);
+	while (i <= (len - 1) && (str[i] != 0 || s[start] != 0))
+	{
+		str[i] = s[start];
+		i++;
+		start++;
+	}
+	str[i] = 0;
+	return (str);
+}

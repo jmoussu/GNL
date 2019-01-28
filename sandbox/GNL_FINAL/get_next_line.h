@@ -6,7 +6,7 @@
 /*   By: jmoussu <jmoussu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/25 16:03:41 by jmoussu           #+#    #+#             */
-/*   Updated: 2019/01/28 15:27:27 by jmoussu          ###   ########.fr       */
+/*   Updated: 2018/12/09 18:38:09 by jmoussu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # include "libft/libft.h"
-# define BUFF_SIZE 3
+# define BUFF_SIZE 42
 
 typedef struct		s_var
 {

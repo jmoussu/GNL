@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmoussu <jmoussu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/25 16:03:41 by jmoussu           #+#    #+#             */
-/*   Updated: 2019/01/28 15:27:27 by jmoussu          ###   ########.fr       */
+/*   Created: 2018/11/12 20:29:17 by jmoussu           #+#    #+#             */
+/*   Updated: 2018/11/13 20:55:44 by jmoussu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# define BUFF_SIZE 3
-
-typedef struct		s_var
+size_t	ft_strlcat(char *s1, const char *s2, size_t size)
 {
-	char			buff[BUFF_SIZE + 1];
-	int				size;
-	int				i;
-	char			*ptr;
-}					t_var;
+	size_t	i;
+	size_t	j;
+	size_t	s2_len;
 
-int					get_next_line(const int fd, char **line);
-
-#endif
+	j = ft_strlen(s1);
+	i = 0;
+	s2_len = 0;
+	while (s2[i] && j + i + 1 < size)
+	{
+		s1[j + i] = s2[i];
+		i++;
+	}
+	s1[i + j] = 0;
+	s2_len = ft_strlen(s2);
+	if (size < j)
+		return (size + s2_len);
+	return (j + s2_len);
+}

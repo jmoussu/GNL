@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmoussu <jmoussu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/25 16:03:41 by jmoussu           #+#    #+#             */
-/*   Updated: 2019/01/28 15:27:27 by jmoussu          ###   ########.fr       */
+/*   Created: 2018/11/09 12:08:50 by jmoussu           #+#    #+#             */
+/*   Updated: 2018/11/12 14:43:35 by jmoussu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# define BUFF_SIZE 3
-
-typedef struct		s_var
+int		ft_strcmp(const char *s1, const char *s2)
 {
-	char			buff[BUFF_SIZE + 1];
-	int				size;
-	int				i;
-	char			*ptr;
-}					t_var;
+	int i;
 
-int					get_next_line(const int fd, char **line);
-
-#endif
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] != 0 && s2[i] != 0)
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}

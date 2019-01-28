@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmoussu <jmoussu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/25 16:03:41 by jmoussu           #+#    #+#             */
-/*   Updated: 2019/01/28 15:27:27 by jmoussu          ###   ########.fr       */
+/*   Created: 2018/11/12 15:50:15 by jmoussu           #+#    #+#             */
+/*   Updated: 2018/11/13 19:07:55 by jmoussu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# define BUFF_SIZE 3
-
-typedef struct		s_var
+char	*ft_strchr(const char *str, int c)
 {
-	char			buff[BUFF_SIZE + 1];
-	int				size;
-	int				i;
-	char			*ptr;
-}					t_var;
+	size_t			i;
+	char			uc;
+	char			*s;
 
-int					get_next_line(const int fd, char **line);
-
-#endif
+	i = 0;
+	uc = (char)c;
+	s = (char *)str;
+	while (str[i])
+	{
+		if (str[i] == uc)
+			return (s + i);
+		i++;
+	}
+	if (s[i] == '\0' && c == '\0')
+		return (s + i);
+	else
+		return (NULL);
+}

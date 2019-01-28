@@ -6,10 +6,11 @@
 /*   By: jmoussu <jmoussu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 15:48:37 by jmoussu           #+#    #+#             */
-/*   Updated: 2018/12/04 15:37:23 by jmoussu          ###   ########.fr       */
+/*   Updated: 2019/01/28 15:20:59 by jmoussu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <fcntl.h>
 #include "get_next_line.h"
 
 int		main(int argc, char **argv)
@@ -36,7 +37,7 @@ int		main(int argc, char **argv)
 		ft_putstr("Open Fail.\n");
 		return (1);
 	}
-	while (i < 25 && (retGNL = get_next_line(fd, &line)) != 0)
+	while ((retGNL = get_next_line(fd, &line)) != 0)
 	{
 		ft_putnbr(retGNL);
 		ft_putchar('\t');
